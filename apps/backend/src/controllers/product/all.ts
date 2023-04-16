@@ -19,6 +19,7 @@ const all: RequestHandler = async (req, res) => {
     const payload = {
       ...item.toObject(),
       count: idCount,
+      client: orders.length,
       totalPrice: item.price * idCount
     };
     result.push(payload);
