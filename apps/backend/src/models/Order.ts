@@ -11,8 +11,8 @@ interface OrderModel extends Model<Order> {}
 
 const schema = new Schema<Order>(
   {
-    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
-    client: { type: Schema.Types.ObjectId, ref: 'Client' }
+    products: [{ type: Schema.Types.ObjectId, ref: 'Product', index: true }],
+    client: { type: Schema.Types.ObjectId, ref: 'Client', index: true }
   },
   { timestamps: true }
 );

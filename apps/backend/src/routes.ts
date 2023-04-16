@@ -6,6 +6,8 @@ import path from 'path';
 
 import * as BookController from './controllers/book';
 
+import * as ProductController from './controllers/product';
+
 import * as OrderController from './controllers/order';
 
 const swaggerUiOptions = {
@@ -25,6 +27,8 @@ router.delete('/book/id/:bookId', BookController.remove);
 
 router.get('/order/all', OrderController.all);
 router.get('/order/add', OrderController.add);
+
+router.get('/product/all', ProductController.all);
 
 // Dev routes
 if (process.env.NODE_ENV === 'development') {

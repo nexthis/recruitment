@@ -9,7 +9,9 @@ interface ClientModel extends Model<IClient> {}
 
 const schema = new Schema<IClient>(
   {
-    name: { type: String, index: true, required: true },
+    name: {
+      type: String, index: true, required: true, unique: true
+    },
     city: { type: String, index: true, required: true },
     postcode: { type: String, required: true },
     streetNumber: { type: Number, required: true },
