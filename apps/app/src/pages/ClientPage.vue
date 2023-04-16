@@ -65,8 +65,6 @@ const headers = [
 ];
 
 const sumProductsPrice = (value: Array<any>) => {
-  return value.reduce((partialSum, value) => partialSum.price + value.price, {
-    price: 0,
-  });
+  return value.reduce((counter, value) => counter + value.price, 0);
 };
 </script>

@@ -24,27 +24,13 @@
             :headers="headers"
             :items="data"
             :items-length="data?.length ?? 0"
-            show-expand
           >
-            <template #item.products.price="{ item }">
-              {{ sumProductsPrice(item.raw.products) }} PLN
+            <template #item.price="{ item }">
+              {{ item.raw.price }} PLN
             </template>
 
-            <template #item.products.sum="{ item }">
-              {{ item.raw.products.length }}
-            </template>
-
-            <template v-slot:expanded-row="{ columns, item }">
-              <v-list rounded="lg">
-                <v-list-item v-for="item in item.raw.products" :key="item._id">
-                  <v-list-item-title>
-                    Produkt: {{ item.name }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ item.price }} PLN
-                  </v-list-item-subtitle>
-                </v-list-item>
-              </v-list>
+            <template #item.totalPrice="{ item }">
+              {{ item.raw.totalPrice }} PLN
             </template>
           </v-data-table-server>
         </v-sheet>
@@ -54,19 +40,14 @@
 </template>
 
 <script setup lang="ts">
-import { useOrders } from "@/composition/useOrders";
+import { useProduct } from "@/composition/useProduct";
 
-const { data, isLoading } = useOrders();
+const { data, isLoading } = useProduct();
 
 const headers = [
-  { title: "Klient", key: "client.name" },
-  { title: "Ilość zamówień", key: "products.sum" },
-  { title: "Cena", key: "products.price" },
+  { title: "Nazwa", key: "name" },
+  { title: "Cena Detaliczna", key: "price" },
+  { title: "Ilość klientów", key: "client" },
+  { title: "Łączna wartość", key: "totalPrice" },
 ];
-
-const sumProductsPrice = (value: Array<any>) => {
-  return value.reduce((partialSum, value) => partialSum.price + value.price, {
-    price: 0,
-  });
-};
 </script>
