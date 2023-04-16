@@ -1,0 +1,25 @@
+{
+  "name": "recruitment",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,vue,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "author": "Paweł Romanowski",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^2.8.7"
+  },
+  "dependencies": {
+    "turbo": "^1.9.1"
+  }
+}
