@@ -6,13 +6,11 @@
         Wstecz
       </v-btn>
     </template>
-
     <v-data-table-server
       :loading="isLoading"
       :headers="headers"
-      :items="data"
-      :items-length="data?.length ?? 0"
-      show-expand
+      :items="result"
+      :items-length="result?.length ?? 0"
     >
       <template #item.products.price="{ item }">
         {{ sumProductsPrice(item.raw.products) }} PLN
@@ -22,13 +20,8 @@
         {{ item.raw.products.length }}
       </template>
 
-      <template v-slot:expanded-row="{ columns, item }">
-        <v-list rounded="lg">
-          <v-list-item v-for="item in item.raw.products" :key="item._id">
-            <v-list-item-title> Produkt: {{ item.name }} </v-list-item-title>
-            <v-list-item-subtitle> {{ item.price }} PLN </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
+      <template #item.createdAt="{ item }">
+        {{ readableDate(new Date(item.raw.createdAt)) }}
       </template>
     </v-data-table-server>
   </base-layout>
@@ -37,17 +30,35 @@
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import { useOrders } from "@/composition/useOrders";
+import { isValidDate, inScope, readableDate } from "@/utils/date";
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
+
+const route = useRoute();
+const router = useRouter();
+
+const from = new Date(route.query.from);
+const to = new Date(route.query.to);
+
+if (!(isValidDate(from) && isValidDate(to))) {
+  alert("Super UI ;-) \ndata nieprawidłowa");
+  router.push({ name: "index" });
+}
 
 const { data, isLoading } = useOrders();
+
+const result = computed(() =>
+  data.value?.filter((item) => inScope(new Date(item.createdAt), from, to))
+);
+
+const sumProductsPrice = (value: Array<any>) => {
+  return value.reduce((counter, value) => counter + value.price, 0);
+};
 
 const headers = [
   { title: "Klient", key: "client.name" },
   { title: "Ilość produktów", key: "products.sum" },
   { title: "Cena", key: "products.price" },
-  { title: "data", key: "products.price" },
+  { title: "Data", key: "createdAt" },
 ];
-
-const sumProductsPrice = (value: Array<any>) => {
-  return value.reduce((counter, value) => counter + value.price, 0);
-};
 </script>

@@ -1,48 +1,48 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="2">
-        <v-sheet rounded="lg">
-          <v-list rounded="lg">
-            <v-list-item v-for="n in 5" :key="n" link>
-              <v-list-item-title> List Item {{ n }} </v-list-item-title>
-            </v-list-item>
+  <base-layout>
+    <template #option>
+      <div class="text-h6 text-center">Opcje</div>
 
-            <v-divider class="my-2" />
+      <div class="mt-5 mb-1">Raportuj po dacie</div>
+      <VueDatePicker range locale="pl" @update:model-value="onSelect" />
 
-            <v-list-item link color="grey-lighten-4">
-              <v-list-item-title> Refresh </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-sheet>
-      </v-col>
+      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'client' }">
+        Filtruj po klientach
+      </v-btn>
+    </template>
 
-      <v-col>
-        <v-sheet min-height="70vh" class="px-4 py-5" rounded="lg">
-          <v-data-table-server
-            :loading="isLoading"
-            :headers="headers"
-            :items="data"
-            :items-length="data?.length ?? 0"
-          >
-            <template #item.price="{ item }">
-              {{ item.raw.price }} PLN
-            </template>
+    <v-data-table-server
+      :loading="isLoading"
+      :headers="headers"
+      :items="data"
+      :items-length="data?.length ?? 0"
+    >
+      <template #item.price="{ item }"> {{ item.raw.price }} PLN </template>
 
-            <template #item.totalPrice="{ item }">
-              {{ item.raw.totalPrice }} PLN
-            </template>
-          </v-data-table-server>
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>
+      <template #item.totalPrice="{ item }">
+        {{ item.raw.totalPrice }} PLN
+      </template>
+    </v-data-table-server>
+  </base-layout>
 </template>
 
 <script setup lang="ts">
+import BaseLayout from "@/layouts/BaseLayout.vue";
 import { useProduct } from "@/composition/useProduct";
+import { useRouter } from "vue-router";
 
 const { data, isLoading } = useProduct();
+const router = useRouter();
+
+const onSelect = (date: Array<Date>) => {
+  router.push({
+    name: "report",
+    query: {
+      from: date[0].toISOString(),
+      to: date[1].toISOString(),
+    },
+  });
+};
 
 const headers = [
   { title: "Nazwa", key: "name" },
