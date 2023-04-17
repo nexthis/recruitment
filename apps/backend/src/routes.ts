@@ -29,6 +29,7 @@ router.get('/order/all', OrderController.all);
 router.get('/order/add', OrderController.add);
 
 router.get('/product/all', ProductController.all);
+router.post('/product/add', ProductController.add);
 
 // Dev routes
 if (process.env.NODE_ENV === 'development') {
