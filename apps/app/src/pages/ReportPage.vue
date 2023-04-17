@@ -6,6 +6,34 @@
         Wstecz
       </v-btn>
     </template>
+
+    <v-container class="mb-6">
+      <v-row>
+        <v-col>
+          <v-sheet class="px-3 py-6 bg-deep-purple-lighten-4 rounded">
+            <div class="text-h4 text-center mb-2">Produkty</div>
+            <div v-if="result" class="text-h5 text-center">
+              {{ allProductsCount(result) }} produkty
+            </div>
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet class="px-3 py-6 bg-deep-purple-lighten-4 rounded">
+            <div class="text-h4 text-center mb-2">Łącznie</div>
+            <div v-if="result" class="text-h5 text-center">
+              {{ allProductsPrice(result) }} PLN
+            </div>
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet class="px-3 py-6 bg-deep-purple-lighten-4 rounded">
+            <div class="text-h4 text-center mb-2">Wykres</div>
+            <div class="text-h5 text-center">----</div>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-data-table-server
       :loading="isLoading"
       :headers="headers"
@@ -53,6 +81,17 @@ const result = computed(() =>
 
 const sumProductsPrice = (value: Array<any>) => {
   return value.reduce((counter, value) => counter + value.price, 0);
+};
+
+const allProductsPrice = (value: Array<any>) => {
+  return value.reduce(
+    (counter, value) => counter + sumProductsPrice(value.products),
+    0
+  );
+};
+
+const allProductsCount = (value: Array<any>) => {
+  return value.reduce((counter, value) => counter + value.products.length, 0);
 };
 
 const headers = [
