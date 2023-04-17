@@ -7,36 +7,40 @@
       </v-btn>
     </template>
 
-    <v-data-table-server
-      :loading="isLoading"
-      :headers="headers"
-      :items="data"
-      :items-length="data?.length ?? 0"
-      show-expand
-    >
-      <template #item.products.price="{ item }">
-        {{ sumProductsPrice(item.raw.products) }} PLN
-      </template>
-
-      <template #item.products.sum="{ item }">
-        {{ item.raw.products.length }}
-      </template>
-
-      <template v-slot:expanded-row="{ columns, item }">
-        <v-list rounded="lg">
-          <v-list-item v-for="item in item.raw.products" :key="item._id">
-            <v-list-item-title> Produkt: {{ item.name }} </v-list-item-title>
-            <v-list-item-subtitle> {{ item.price }} PLN </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </template>
-    </v-data-table-server>
+    <v-expansion-panels>
+      <v-expansion-panel v-for="(client, name) in clients" :key="name">
+        <v-expansion-panel-title>
+          {{ name }} - ilość zamówień {{ client.length }}
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <v-table>
+            <thead>
+              <tr>
+                <th class="text-left">Produkty</th>
+                <th class="text-left">Kwota</th>
+                <th class="text-left">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in client" :key="item.createdAt">
+                <td>{{ item.products.map((item) => item.name).join(", ") }}</td>
+                <td>{{ sumProductsPrice(item.products) }} PLN</td>
+                <td>{{ readableDate(new Date(item.createdAt)) }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </base-layout>
 </template>
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import { useOrders } from "@/composition/useOrders";
+import { readableDate } from "@/utils/date";
+import { computed } from "vue";
+import _ from "lodash";
 
 const { data, isLoading } = useOrders();
 
@@ -44,8 +48,9 @@ const headers = [
   { title: "Klient", key: "client.name" },
   { title: "Ilość produktów", key: "products.sum" },
   { title: "Cena", key: "products.price" },
-  { title: "data", key: "products.price" },
 ];
+
+const clients = computed(() => _.groupBy(data.value, "client.name"));
 
 const sumProductsPrice = (value: Array<any>) => {
   return value.reduce((counter, value) => counter + value.price, 0);
