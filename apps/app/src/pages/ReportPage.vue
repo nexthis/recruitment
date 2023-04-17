@@ -27,8 +27,7 @@
         </v-col>
         <v-col>
           <v-sheet class="px-3 py-6 bg-deep-purple-lighten-4 rounded">
-            <div class="text-h4 text-center mb-2">Wykres</div>
-            <div class="text-h5 text-center">----</div>
+            <doughnut-chart v-if="result" :data="chartData(result)" />
           </v-sheet>
         </v-col>
       </v-row>
@@ -57,10 +56,13 @@
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
+import DoughnutChart from "@/components/DoughnutChart.vue";
 import { useOrders } from "@/composition/useOrders";
 import { isValidDate, inScope, readableDate } from "@/utils/date";
+import { randomColor } from "@/utils/color";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
+import _ from "lodash";
 
 const route = useRoute();
 const router = useRouter();
@@ -74,6 +76,8 @@ if (!(isValidDate(from) && isValidDate(to))) {
 }
 
 const { data, isLoading } = useOrders();
+
+//Sorting and Filtering
 
 const result = computed(() =>
   data.value?.filter((item) => inScope(new Date(item.createdAt), from, to))
@@ -92,6 +96,27 @@ const allProductsPrice = (value: Array<any>) => {
 
 const allProductsCount = (value: Array<any>) => {
   return value.reduce((counter, value) => counter + value.products.length, 0);
+};
+
+const chartData = (value: Array<any>) => {
+  const results = _.groupBy(
+    _.flatten(value.map((item) => item.products)),
+    "_id"
+  );
+
+  const labels = _.map(results, (item) => item[0].name);
+  const data = _.map(results, (item) => item.length);
+  const backgroundColor = _.map(results, () => `#${randomColor()}`);
+
+  return {
+    labels,
+    datasets: [
+      {
+        backgroundColor,
+        data,
+      },
+    ],
+  };
 };
 
 const headers = [
