@@ -4,6 +4,7 @@ App is [turbo monorepo](https://github.com/vercel/turbo) required: Docker, nodeJ
 
 - `cd <repository root>/apps/app`
 - then `npm install`
+- then `cp .env.default .env.local`
 - `cd <repository root>/apps/backend`
 - then `npm install`
 - run `npm run dev`
