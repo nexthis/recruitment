@@ -9,6 +9,14 @@
       <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'client' }">
         Filtruj po klientach
       </v-btn>
+
+      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'addProduct' }">
+        Dodaj produkt
+      </v-btn>
+
+      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'client' }">
+        Dodaj zamówienie klienta
+      </v-btn>
     </template>
 
     <v-data-table-server

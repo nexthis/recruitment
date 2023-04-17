@@ -4,12 +4,14 @@ import {createRouter, createWebHistory} from "vue-router"
 import IndexPage from "@/pages/IndexPage.vue"
 import ClientPage from "@/pages/ClientPage.vue"
 import ReportPage from "@/pages/ReportPage.vue"
+import AddProductPage from "@/pages/AddProductPage.vue"
 
-// for better performance  import(/* webpackChunkName: "group-name" */ '@/pages/ReportPage.vue')
+// for better performance use lazy import(/* webpackChunkName: "group-name" */ '@/pages/ReportPage.vue')
 const routes = [
     { path: '/', component: IndexPage, name: 'index' },
     { path: '/client', component: ClientPage, name: 'client' },
     { path: '/report', component: ReportPage, name: 'report' },
+    { path: '/add/product', component: AddProductPage, name: 'addProduct' },
 ]
 
 
