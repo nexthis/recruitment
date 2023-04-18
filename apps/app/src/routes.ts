@@ -5,6 +5,8 @@ import IndexPage from "@/pages/IndexPage.vue"
 import ClientPage from "@/pages/ClientPage.vue"
 import ReportPage from "@/pages/ReportPage.vue"
 import AddProductPage from "@/pages/AddProductPage.vue"
+import AddClientPage from "@/pages/AddClientPage.vue"
+import AddOrderPage from "@/pages/AddOrderPage.vue"
 
 // for better performance use lazy import(/* webpackChunkName: "group-name" */ '@/pages/ReportPage.vue')
 const routes = [
@@ -12,6 +14,8 @@ const routes = [
     { path: '/client', component: ClientPage, name: 'client' },
     { path: '/report', component: ReportPage, name: 'report' },
     { path: '/add/product', component: AddProductPage, name: 'addProduct' },
+    { path: '/add/client', component: AddClientPage, name: 'addClient' },
+    { path: '/add/order', component: AddOrderPage, name: 'addOrder' },
 ]
 
 
