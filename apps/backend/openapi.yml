@@ -3,35 +3,29 @@ info:
   title: API Service
   version: 1.0.0
   description: API Service endpoints
-  contact:
-    email: sidhant@panda.fyi
-    name: Sidhant Panda
 servers:
   - url: "/"
-tags:
-  - name: book
-    description: Books APIs
 paths:
-  /book/add:
+  /order/add:
     post:
       tags:
-        - book
-      summary: Add a book to the database
-      operationId: book-add
+        - order
+      summary: Add a order to the database
+      operationId: order-add
       requestBody:
         description: New user signing up
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DraftBookSchema"
+              $ref: "#/components/schemas/DraftOrderSchema"
       responses:
         "200":
           description: Book was added
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BookSchema"
+                $ref: "#/components/schemas/OrderSchema"
         "400":
           description: Bad request
           content:
@@ -44,10 +38,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ServerErrorSchema"
-  /book/all:
+  /order/all:
     get:
       tags:
-        - book
+        - order
       summary: Get all books in database
       operationId: book-get-all
       responses:
@@ -57,95 +51,10 @@ paths:
             application/json:
               schema:
                 properties:
-                  books:
+                  result:
                     type: array
                     items:
-                      $ref: "#/components/schemas/BookSchema"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServerErrorSchema"
-  /book/id/{bookId}:
-    get:
-      parameters:
-        - in: path
-          name: bookId
-          schema:
-            type: string
-          required: true
-          description: ID of book to retrieve
-      tags:
-        - book
-      summary: Retrieve a book by ID
-      operationId: book-get
-      responses:
-        "200":
-          description: Book details
-          content:
-            application/json:
-              schema:
-                properties:
-                  book:
-                    $ref: "#/components/schemas/BookSchema"
-        "404":
-          description: Book not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundErrorSchema"
-    delete:
-      parameters:
-        - in: path
-          name: bookId
-          schema:
-            type: string
-          required: true
-          description: ID of book to remove
-      tags:
-        - book
-      summary: Remove a book by ID
-      operationId: book-remove
-      responses:
-        "204":
-          description: Book removed
-        "404":
-          description: Book not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundErrorSchema"
-  /book/search:
-    get:
-      tags:
-        - book
-      summary: Search books by name or author
-      operationId: book-search
-      parameters:
-        - in: query
-          name: name
-          schema:
-            type: string
-            default: hitchhiker
-          description: String containing full name or partial name of the book
-        - in: query
-          name: author
-          schema:
-            type: string
-            default: douglas
-          description: String containing full name or partial name of the author
-      responses:
-        "200":
-          description: Search results
-          content:
-            application/json:
-              schema:
-                properties:
-                  books:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/BookSchema"
+                      $ref: "#/components/schemas/OrderSchema"
         "500":
           description: Internal Server Error
           content:
@@ -181,23 +90,34 @@ components:
           example: Item not found
       required:
         - error
-    DraftBookSchema:
+    DraftOrderSchema:
       type: object
       properties:
-        name:
-          type: string
+        client:
+          type: object
           description: Name of the book
-          example: The Hitchhiker's Guide to the Galaxy
-        author:
-          type: string
+          example:
+            city: Gdańsk
+            createdAt: 2023-04-18T12:30:17.527Z
+            name: Firma
+            postcode: 87-56
+            streetName: Taka Sobie
+            streetNumber: 3
+            updatedAt: 2023-04-18T12:30:17.527Z
+        products:
+          type: array
           description: Name of the author
-          example: Douglas Adams
+          example:
+            - name: Kiełbasa
+              price: 45
+            - name: Kiełbasa
+              price: 45
       required:
         - name
         - author
-    BookSchema:
+    OrderSchema:
       allOf:
-        - $ref: "#/components/schemas/DraftBookSchema"
+        - $ref: "#/components/schemas/DraftOrderSchema"
       type: object
       properties:
         _id:
