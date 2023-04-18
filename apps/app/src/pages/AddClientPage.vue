@@ -27,6 +27,9 @@ import BaseLayout from "@/layouts/BaseLayout.vue";
 import HeadLine from "@/components/HeadLine.vue";
 import { useCreateProduct } from "@/composition/useCreateClient";
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const form = reactive({
   name: "",
@@ -42,5 +45,7 @@ const onSend = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   await mutateAsync(form);
+
+  router.push({ name: "index" });
 };
 </script>

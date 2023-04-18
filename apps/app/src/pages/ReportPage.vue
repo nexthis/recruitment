@@ -17,8 +17,8 @@
           <v-sheet
             class="px-3 py-8 rounded bg-deep-purple-lighten-3 text-white"
           >
-            <div class="text-h3 text-center mb-2">Produkty</div>
-            <div v-if="result" class="text-h4 text-center">
+            <div class="text-h4 text-lg-h3 text-center mb-2">Produkty</div>
+            <div v-if="result" class="text-h5 text-lg-h4 text-center">
               {{ allProductsCount(result) }} produkty
             </div>
           </v-sheet>
@@ -26,8 +26,8 @@
           <v-sheet
             class="px-3 py-8 rounded bg-deep-purple-lighten-3 text-white"
           >
-            <div class="text-h3 text-center mb-2">Łącznie</div>
-            <div v-if="result" class="text-h4 text-center">
+            <div class="text-h4 text-lg-h3 text-center mb-2">Łącznie</div>
+            <div v-if="result" class="text-h5 text-lg-h4 text-center">
               {{ allProductsPrice(result) }} PLN
             </div>
           </v-sheet>

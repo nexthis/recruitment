@@ -34,7 +34,9 @@ import { reactive } from "vue";
 import { useProduct } from "@/composition/useProduct";
 import { useClient } from "@/composition/useClient";
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const { data: productsData } = useProduct();
 const { data: clientData } = useClient();
 
@@ -57,5 +59,7 @@ const onSend = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   await mutateAsync(form);
+
+  router.push({ name: "index" });
 };
 </script>
