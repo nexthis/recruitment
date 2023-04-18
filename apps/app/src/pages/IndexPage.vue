@@ -23,6 +23,10 @@
       </v-btn>
     </template>
 
+    <head-line title="Produkty">
+      Aktualnie posiadamy {{ data?.length }} produkty
+    </head-line>
+
     <v-data-table-server
       :loading="isLoading"
       :headers="headers"
@@ -40,6 +44,7 @@
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
+import HeadLine from "@/components/HeadLine.vue";
 import { useProduct } from "@/composition/useProduct";
 import { useRouter } from "vue-router";
 

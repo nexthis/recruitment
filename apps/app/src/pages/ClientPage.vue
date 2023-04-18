@@ -7,6 +7,8 @@
       </v-btn>
     </template>
 
+    <head-line title="Klienci "> Lista naszych aktualnych klientów </head-line>
+
     <v-expansion-panels>
       <v-expansion-panel v-for="(client, name) in clients" :key="name">
         <v-expansion-panel-title>
@@ -37,6 +39,7 @@
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
+import HeadLine from "@/components/HeadLine.vue";
 import { useOrders } from "@/composition/useOrders";
 import { readableDate } from "@/utils/date";
 import { computed } from "vue";

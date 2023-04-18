@@ -6,26 +6,29 @@
         Wstecz
       </v-btn>
     </template>
-    <v-combobox
-      v-model="form.client"
-      label="Klient"
-      :return-object="false"
-      :items="client"
-    ></v-combobox>
-    <v-combobox
-      label="Produkty"
-      multiple
-      v-model="form.products"
-      :return-object="false"
-      item-text="value"
-      :items="products"
-    ></v-combobox>
-    <v-btn @click="onSend"> Dodaj </v-btn>
+    <div class="mx-auto max-w-500 mt-10">
+      <head-line class="text-center" title="Dodaj zamówienie"></head-line>
+      <v-combobox
+        v-model="form.client"
+        label="Klient"
+        :return-object="false"
+        :items="client"
+      ></v-combobox>
+      <v-combobox
+        label="Produkty"
+        multiple
+        v-model="form.products"
+        :return-object="false"
+        :items="products"
+      ></v-combobox>
+      <v-btn @click="onSend"> Dodaj </v-btn>
+    </div>
   </base-layout>
 </template>
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
+import HeadLine from "@/components/HeadLine.vue";
 import { useCreateOrder } from "@/composition/useCreateOrder";
 import { reactive } from "vue";
 import { useProduct } from "@/composition/useProduct";
