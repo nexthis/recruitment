@@ -18,4 +18,4 @@ export async function add(data: Partial<Product>) {
    })
    return await response.json()
 }
-all.key = "product.add"
+add.key = "product.add"

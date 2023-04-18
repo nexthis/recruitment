@@ -4,11 +4,11 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 
-import * as BookController from './controllers/book';
-
 import * as ProductController from './controllers/product';
 
 import * as OrderController from './controllers/order';
+
+import * as ClientController from './controllers/client';
 
 const swaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }'
@@ -18,18 +18,14 @@ const router = Router();
 
 const SWAGGER_YAML_FILEPATH = path.join(__dirname, '../openapi.yml');
 
-// Book routes
-router.post('/book/add', BookController.add);
-router.get('/book/all', BookController.all);
-router.get('/book/search', BookController.search);
-router.get('/book/id/:bookId', BookController.get);
-router.delete('/book/id/:bookId', BookController.remove);
-
 router.get('/order/all', OrderController.all);
-router.get('/order/add', OrderController.add);
+router.post('/order/add', OrderController.add);
 
 router.get('/product/all', ProductController.all);
 router.post('/product/add', ProductController.add);
+
+router.get('/client/all', ClientController.all);
+router.post('/client/add', ClientController.add);
 
 // Dev routes
 if (process.env.NODE_ENV === 'development') {

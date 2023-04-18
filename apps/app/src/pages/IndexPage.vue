@@ -14,7 +14,11 @@
         Dodaj produkt
       </v-btn>
 
-      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'client' }">
+      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'addClient' }">
+        Dodaj klienta
+      </v-btn>
+
+      <v-btn variant="text" class="d-flex mt-7" :to="{ name: 'addOrder' }">
         Dodaj zamówienie klienta
       </v-btn>
     </template>
