@@ -6,23 +6,30 @@
         Wstecz
       </v-btn>
     </template>
-    <v-text-field v-model="form.name" label="Nazwa"></v-text-field>
-    <v-text-field v-model="form.city" label="Miasto"></v-text-field>
-    <v-text-field v-model="form.postcode" label="Kod Pocztowy"></v-text-field>
-    <v-text-field v-model="form.streetName" label="Ulica"></v-text-field>
-    <v-text-field
-      v-model="form.streetNumber"
-      type="number"
-      label="Nr Ulicy"
-    ></v-text-field>
-    <v-btn @click="onSend"> Dodaj </v-btn>
+    <div class="mx-auto max-w-500 mt-10">
+      <head-line class="text-center" title="Dodaj Klienta"></head-line>
+      <v-text-field v-model="form.name" label="Nazwa"></v-text-field>
+      <v-text-field v-model="form.city" label="Miasto"></v-text-field>
+      <v-text-field v-model="form.postcode" label="Kod Pocztowy"></v-text-field>
+      <v-text-field v-model="form.streetName" label="Ulica"></v-text-field>
+      <v-text-field
+        v-model="form.streetNumber"
+        type="number"
+        label="Nr Ulicy"
+      ></v-text-field>
+      <v-btn @click="onSend"> Dodaj </v-btn>
+    </div>
   </base-layout>
 </template>
 
 <script setup lang="ts">
 import BaseLayout from "@/layouts/BaseLayout.vue";
+import HeadLine from "@/components/HeadLine.vue";
 import { useCreateProduct } from "@/composition/useCreateClient";
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const form = reactive({
   name: "",
@@ -38,5 +45,7 @@ const onSend = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   await mutateAsync(form);
+
+  router.push({ name: "index" });
 };
 </script>
