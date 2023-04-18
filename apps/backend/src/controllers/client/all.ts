@@ -1,10 +1,11 @@
 import { RequestHandler } from 'express';
 import requestMiddleware from '../../middleware/request-middleware';
-import Book from '../../models/Book';
+import Client from '../../models/Client';
 
 const all: RequestHandler = async (req, res) => {
-  const books = await Book.find();
-  res.send({ books });
+  const result = await Client.find();
+
+  res.send(result);
 };
 
 export default requestMiddleware(all);

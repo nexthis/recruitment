@@ -1,32 +1,28 @@
-import { RequestHandler } from 'express';
+import { Request, RequestHandler } from 'express';
+import Joi from 'joi';
 import requestMiddleware from '../../middleware/request-middleware';
 import Order from '../../models/Order';
-import Product from '../../models/Product';
-import Client from '../../models/Client';
 
-const add: RequestHandler = async (req, res) => {
-  const product = new Product({
-    name: 'test',
-    price: 45
-  });
-  await product.save();
+export const addOrderSchema = Joi.object().keys({
+  client: Joi.string().required(),
+  products: Joi.array().required()
+});
 
-  const client = new Client({
-    name: 'TeeestClient',
-    city: 'Gdańsk',
-    postcode: '80-251',
-    streetNumber: 5,
-    streetName: 'Powiązki'
-  });
-  await client.save();
+interface AddReqBody {
+  client: string;
+  products: Array<string>;
+}
 
-  const order = new Order({
-    client,
-    products: product
-  });
+const add: RequestHandler = async (req: Request<{}, {}, AddReqBody>, res) => {
+  const { client, products } = req.body;
+
+  const order = new Order({ client, products });
   await order.save();
 
-  res.send({ order });
+  res.send({
+    message: 'Saved',
+    book: order.toJSON()
+  });
 };
 
-export default requestMiddleware(add);
+export default requestMiddleware(add, { validation: { body: addOrderSchema } });
