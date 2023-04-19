@@ -7,17 +7,23 @@
       </v-btn>
     </template>
 
-    <div class="mx-auto max-w-500 mt-10">
+    <v-form @submit.prevent="onSubmit" class="mx-auto max-w-500 mt-10">
       <head-line class="text-center" title="Dodaj Produkt"></head-line>
 
-      <v-text-field v-model="form.name" label="Nazwa"></v-text-field>
       <v-text-field
+        v-model="form.name"
+        :rules="[notEmpty]"
+        label="Nazwa"
+      ></v-text-field>
+      <v-text-field
+        class="mt-4"
         v-model="form.price"
         type="number"
+        :rules="[notEmpty]"
         label="Cena"
       ></v-text-field>
-      <v-btn @click="onSend"> Dodaj </v-btn>
-    </div>
+      <v-btn type="submit" class="mt-4"> Dodaj </v-btn>
+    </v-form>
   </base-layout>
 </template>
 
@@ -25,8 +31,10 @@
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import HeadLine from "@/components/HeadLine.vue";
 import { useCreateProduct } from "@/composition/useCreateProduct";
+import { notEmpty } from "@/utils/rules";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import type { SubmitEventPromise } from "vuetify";
 
 const router = useRouter();
 
@@ -37,7 +45,11 @@ const form = reactive({
 
 const { mutateAsync } = useCreateProduct();
 
-const onSend = async () => {
+const onSubmit = async (e: SubmitEventPromise) => {
+  const valid = await e;
+  if (!valid.valid) {
+    return;
+  }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   await mutateAsync(form);

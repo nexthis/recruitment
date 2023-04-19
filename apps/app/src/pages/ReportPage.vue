@@ -77,6 +77,11 @@ import DoughnutChart from "@/components/DoughnutChart.vue";
 import HeadLine from "@/components/HeadLine.vue";
 import { useOrders } from "@/composition/useOrders";
 import { isValidDate, inScope, readableDate } from "@/utils/date";
+import {
+  sumProductsPrice,
+  allProductsPrice,
+  allProductsCount,
+} from "@/utils/filter";
 import { randomColor } from "@/utils/color";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
@@ -100,21 +105,6 @@ const { data, isLoading } = useOrders();
 const result = computed(() =>
   data.value?.filter((item) => inScope(new Date(item.createdAt), from, to))
 );
-
-const sumProductsPrice = (value: Array<any>) => {
-  return value.reduce((counter, value) => counter + value.price, 0);
-};
-
-const allProductsPrice = (value: Array<any>) => {
-  return value.reduce(
-    (counter, value) => counter + sumProductsPrice(value.products),
-    0
-  );
-};
-
-const allProductsCount = (value: Array<any>) => {
-  return value.reduce((counter, value) => counter + value.products.length, 0);
-};
 
 const chartData = (value: Array<any>) => {
   const results = _.groupBy(
