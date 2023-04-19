@@ -42,6 +42,7 @@ import BaseLayout from "@/layouts/BaseLayout.vue";
 import HeadLine from "@/components/HeadLine.vue";
 import { useOrders } from "@/composition/useOrders";
 import { readableDate } from "@/utils/date";
+import { sumProductsPrice } from "@/utils/filter";
 import { computed } from "vue";
 import _ from "lodash";
 
@@ -54,8 +55,4 @@ const headers = [
 ];
 
 const clients = computed(() => _.groupBy(data.value, "client.name"));
-
-const sumProductsPrice = (value: Array<any>) => {
-  return value.reduce((counter, value) => counter + value.price, 0);
-};
 </script>
